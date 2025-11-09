@@ -1,4 +1,5 @@
 //
+import {collisionResolve} from './collision_resolve.js';
 var canvas = document.querySelector('canvas');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -172,6 +173,8 @@ var no_Of_Ball = 40;
 var rad = 16;
 let x;
 let y;
+const gravity= 0.01;
+
 for (var i = 0; i < no_Of_Ball; i++) {
     //rad = getRandom(5,60);
     x = getRandom(rad, innerWidth - rad);
@@ -206,8 +209,8 @@ function animate() {
                 //if collided then
                 circle[i].resolveCollision(circle[j]);
             } else {
-                circle[i].acc.y = 0.01;
-                circle[j].acc.y = 0.01;
+                circle[i].acc.y = gravity;
+                circle[j].acc.y = gravity;
             }
         }
         //for each circles

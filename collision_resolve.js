@@ -1,12 +1,11 @@
-class collisionResolve {
-    constructor(velocity,angle) {
-        vel = velocity;
-        ang = angle;
-
-        this.msg = function() {
-            // body...
-            alert("alert!!")
-        }
+export class collisionResolve {
+    constructor(velocity, angle) {
+        this.vel = velocity;
+        this.ang = angle;
         
+     function testFunction() {
+            // Tab to edit
+            return { velocity: this.vel, angle: this.ang };
+        }
     }
 }
