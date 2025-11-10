@@ -43,7 +43,7 @@ export class Circle {
   draw(c) {
     c.beginPath();
     c.arc(this.pos.x, this.pos.y, this.radius, 0, Math.PI * 2);
-    c.strokeStyle = (100, 100);
+    c.strokeStyle = "black";
     c.stroke();
   }
   update() {
@@ -65,9 +65,6 @@ export class Circle {
     if (this.pos.y < this.radius) {
       this.pos.y = this.radius;
       this.vel.y *= -1;
-    }
-    if (this.acc < .1) {
-      this.vel = 0;
     }
     this.pos.addMutate(this.vel);
   };

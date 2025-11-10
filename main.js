@@ -16,36 +16,37 @@ function getRandom(lVal, hVal) {
 
 let collider = new Collision();
 
-const circle = []; //create a ball array
+const circles = [];
 const radius = [];
-var no_Of_Ball = 10;
-var rad = 10;
-let x;
-let y;
-const gravity = 0.0; // gravity 
-let mass = 1; // mass
+const no_of_ball = 20;
+let rad = 30;
+const mass = 1;
+const gravity = 0.0;
 
-
-
-for (var i = 0; i < no_Of_Ball; i++) {
-    rad = getRandom(5, 60);
-    let coordRandom = new Vector(getRandom(rad, innerWidth - rad), getRandom(rad, innerHeight - rad))
-    x = getRandom(rad, innerWidth - rad);
-    y = getRandom(rad, innerHeight - rad);
-    if (i !== 0) {
-        for (var j = 0; j < circle.length; j++) {
-            //check the touch between ball so that they don't overlap on eachother
-            if (coordRandom.distanceCheck(circle[j])) {
+for (let i = 0; i < no_of_ball; i++) {
+    rad = getRandom(5, 50);
+    let x = getRandom(rad, innerWidth - rad);
+    let y = getRandom(rad, innerHeight - rad);
+    
+    let newCircle = new Circle(x, y, rad, mass);
+    
+    // Check overlap with existing circles
+    let overlapping = false;
+    do {
+        overlapping = false;
+        for (let j = 0; j < circles.length; j++) {
+            if (newCircle.collided(circles[j])) {
+                overlapping = true;
                 x = getRandom(rad, innerWidth - rad);
                 y = getRandom(rad, innerHeight - rad);
-                j = -1; //call same loop till the new ball got no overlap
+                newCircle = new Circle(x, y, rad, mass);
+                break;
             }
         }
-    }
+    } while (overlapping);
+    
     radius.push(rad);
-    //store each ball object into this ball array
-    //mass = rad * 0.01;
-    circle.push(new Circle(x, y, radius[i], mass));
+    circles.push(newCircle);
 }
 //create an animate function
 function animate() {
@@ -54,20 +55,20 @@ function animate() {
     c.beginPath();
     //clear the background for each frame
     c.clearRect(0, 0, innerWidth, innerHeight);
-    for (var i = 0; i < circle.length; i++) {
-        for (var j = 0; j < circle.length; j++) {
+    for (var i = 0; i < circles.length; i++) {
+        for (var j = 0; j < circles.length; j++) {
             //call collided function to check not to collide
-            if (i !== j && circle[i].collided(circle[j])) {
+            if (i !== j && circles[i].collided(circles[j])) {
                 //if collided then
-                collider.resolveCollision(circle[i], circle[j]);
+                collider.resolveCollision(circles[i], circles[j]);
             } else {
-                circle[i].acc.y = gravity;
-                circle[j].acc.y = gravity;
+                circles[i].acc.y = gravity;
+                circles[j].acc.y = gravity;
             }
         }
         //for each circles
-        circle[i].draw(c); //draw function
-        circle[i].update(); //update function
+        circles[i].draw(c); //draw function
+        //circles[i].update(); //update function
     }
 }
 //call the animate function to perform all
