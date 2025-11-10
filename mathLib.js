@@ -12,7 +12,22 @@ export class Vector {
     this.x = x;
     this.y = y;
     this.z = z;
-  }
+    /**
+     * avoid overlapping ,creating function to check weather one ball touch another
+     * @param {numbers} take the cordinate of balls
+     * @return {boolean} if condition fulfill return true else false
+     */
+    this.distanceCheck = (other) => {
+      var dx = other.x - this.x;
+      var dy = other.y - this.y;
+      var dist = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+      if (dist < this.radius + this.radius) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  };
   /**
    * Add vector with another
    * @param {Vector|Object} other - Vector or {x,y,z} to add.
@@ -62,8 +77,6 @@ export class Vector {
   magVec() {
     return Math.sqrt(this ** 2 + this.y ** 2 + this.z ** 2);
   }
-  
-  
   
   toObject() {
     return { x: this.x, y: this.y, z: this.z };
