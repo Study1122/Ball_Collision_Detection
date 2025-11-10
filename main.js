@@ -21,7 +21,7 @@ const radius = [];
 const no_of_ball = 20;
 let rad = 30;
 const mass = 1;
-const gravity = new Vector(0,0);
+const gravity = new Vector(0, 0);
 const gravityScale = .1;
 
 for (let i = 0; i < no_of_ball; i++) {
@@ -50,17 +50,15 @@ for (let i = 0; i < no_of_ball; i++) {
     circles.push(newCircle);
 }
 
-if(window.ondeviceorientation){
-    window.addEventListener('deviceorientation', (event)=>{
-        const beta = event.beta || 0;
-        const gamma = event.gamma || 0;
-        // scaling gravity for realistic effect 
-        gravity.x = (gamma/90)*gravityScale;
-        gravity.y = (beta/90)*gravityScale;
-    });
-} else {
-    console.log("Device orientation not supported in this device!!")
-}
+
+window.addEventListener('deviceorientation', (event) => {
+    const beta = event.beta || 0;
+    const gamma = event.gamma || 0;
+    // scaling gravity for realistic effect 
+    gravity.x = (gamma / 90) * gravityScale;
+    gravity.y = (beta / 90) * gravityScale;
+});
+
 
 //create an animate function
 function animate() {
