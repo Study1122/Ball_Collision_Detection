@@ -1,7 +1,7 @@
 //
 import { Collision } from './collision_resolve.js';
 import { Vector } from './mathLib.js';
-//import { Circle } from './circle.js';
+import { Circle } from './circle.js';
 
 var canvas = document.querySelector('canvas');
 canvas.width = window.innerWidth;
@@ -14,70 +14,6 @@ function getRandom(lVal, hVal) {
     return Math.floor(Math.random() * (hVal - lVal) + lVal);
 }
 
-function Circle(x, y, r, m = 1) {
-    this.x = x;
-    this.y = y;
-    this.radius = r;
-    this.mass = m;
-    this.v = Math.random() - .5;
-    this.pos = new Vector(this.x, this.y);
-    this.vel = new Vector(this.v, this.v);
-    this.acc = new Vector(0, 0);
-    
-    
-    function getRandom(lVal, hVal) {
-        let data = Math.floor(Math.random() * (hVal - lVal) + lVal);
-        return data;
-    }
-    
-    function distance(x1, y1, x2, y2) {
-        var dx = x2 - x1;
-        var dy = y2 - y1;
-        return Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
-    }
-    //function to draw a sketch
-    this.draw = function() {
-        c.beginPath();
-        c.arc(this.pos.x, this.pos.y, this.radius, 0, Math.PI * 2);
-        c.strokeStyle = (100, 100);
-        c.stroke();
-    };
-    //this function is used for rendering the object in frame
-    this.update = function() {
-        //acceleration
-        //this.draw();
-        this.vel.addMutate(this.acc); //added force on the balls
-        if (this.pos.x + this.radius > innerWidth) {
-            this.pos.x = innerWidth - this.radius;
-            this.vel.x *= -1;
-        }
-        if (this.pos.x < this.radius) {
-            this.pos.x = this.radius;
-            this.vel.x *= -1;
-        }
-        if (this.pos.y + this.radius > innerHeight) {
-            this.pos.y = innerHeight - this.radius;
-            this.vel.y *= -.51;
-        }
-        if (this.pos.y < this.radius) {
-            this.pos.y = this.radius;
-            this.vel.y *= -1;
-        }
-        if (this.acc < .1) {
-            this.vel = 0;
-        }
-        this.pos.addMutate(this.vel);
-    };
-    
-    //collision detection
-    this.collided = function(other) {
-        if (distance(this.pos.x, this.pos.y, other.pos.x, other.pos.y) < this.radius + other.radius) {
-            return true;
-        } else {
-            return false;
-        }
-    };
-}
 //avoid overlapping 
 //creating function to check weather one ball touch another
 function distanceCheck(x1, y1, x2, y2, r1, r2) {
@@ -144,7 +80,7 @@ function animate() {
             }
         }
         //for each circles
-        circle[i].draw(); //draw function
+        circle[i].draw(c); //draw function
         circle[i].update(); //update function
     }
 }
