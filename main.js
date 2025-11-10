@@ -1,6 +1,6 @@
 //
-import {collisionResolve} from './collision_resolve.js';
-import {Vector} from './mathLib.js';
+import { Collision } from './collision_resolve.js';
+import { Vector } from './mathLib.js';
 var canvas = document.querySelector('canvas');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -21,12 +21,14 @@ function Circle(x, y, r) {
     this.pos = new Vector(this.x, this.y);
     this.vel = new Vector(this.v, this.v);
     this.acc = new Vector(0, 0);
-
+    
+    this.coll = new Collision();
+    
     function getRandom(lVal, hVal) {
         let data = Math.floor(Math.random() * (hVal - lVal) + lVal);
         return data;
     }
-
+    
     function distance(x1, y1, x2, y2) {
         var dx = x2 - x1;
         var dy = y2 - y1;
@@ -65,78 +67,13 @@ function Circle(x, y, r) {
         }
         this.pos.addMutate(this.vel);
     };
-
+    
     //collision detection
     this.collided = function(other) {
         if (distance(this.pos.x, this.pos.y, other.pos.x, other.pos.y) < this.radius + other.radius) {
             return true;
         } else {
             return false;
-        }
-    };
-    //collision resolving
-    //Utility functions
-    /**
-     * Rotates coordinate system for velocities
-     *
-     * Takes velocities and alters them as if the coordinate system they're on was rotated
-     *
-     * @param  {Object|velocity} Velocity of an individual particle
-     * @param  {Float} angle    The angle of collision between two objects in radians
-     * @return {Object} altered x and y velocities after the coordinate system has been rotated
-     */
-
-    function rotateAng(velocity, angle) {
-        const rotatedVelocities = {
-            x: velocity.x * Math.cos(angle) - velocity.y * Math.sin(angle),
-            y: velocity.x * Math.sin(angle) + velocity.y * Math.cos(angle)
-        };
-        return rotatedVelocities;
-    }
-
-    /**
-     * Swaps out two colliding particles' x and y velocities after running through
-     * an elastic collision reaction equation
-     *
-     * @param  {Object | particle} A particle object with x and y coordinates, plus velocity
-     * @param  {Object | otherParticle} A particle object with x and y coordinates, plus velocity
-     * @return {Null }Does not return a value
-     */
-    this.resolveCollision = function(other) {
-        const xVelocityDiff = this.vel.x - other.vel.x;
-        const yVelocityDiff = this.vel.y - other.vel.y;
-
-        const xDist = other.pos.x - this.pos.x;
-        const yDist = other.pos.y - this.pos.y;
-
-        // Prevent accidental overlap of particles
-        if (xVelocityDiff * xDist + yVelocityDiff * yDist >= 0) {
-
-            // Grab angle between the two colliding particles
-            const angle = -Math.atan2(other.pos.y - this.pos.y, other.pos.x - this.pos.x);
-
-            // Store mass in var for better readability in collision equation
-            const m1 = this.mass;
-            const m2 = other.mass;
-
-            // Velocity before equation
-            const u1 = rotateAng(this.vel, angle);
-            const u2 = rotateAng(other.vel, angle);
-
-            // Velocity after 1d collision equation
-            const v1 = { x: u1.x * (m1 - m2) / (m1 + m2) + u2.x * 2 * m2 / (m1 + m2), y: u1.y };
-            const v2 = { x: u2.x * (m1 - m2) / (m1 + m2) + u1.x * 2 * m2 / (m1 + m2), y: u2.y };
-
-            // Final velocity after rotating axis back to original location
-            const vFinal1 = rotateAng(v1, -angle);
-            const vFinal2 = rotateAng(v2, -angle);
-
-            // Swap particle velocities for realistic bounce effect
-            this.vel.x = vFinal1.x;
-            this.vel.y = vFinal1.y;
-
-            other.vel.x = vFinal2.x;
-            other.vel.y = vFinal2.y;
         }
     };
 }
@@ -159,7 +96,7 @@ var no_Of_Ball = 10;
 var rad = 10;
 let x;
 let y;
-const gravity= 0.01;
+const gravity = 0.01;
 
 for (var i = 0; i < no_Of_Ball; i++) {
     //rad = getRandom(5,60);
@@ -193,7 +130,7 @@ function animate() {
             //call collided function to check not to collide
             if (i !== j && circle[i].collided(circle[j])) {
                 //if collided then
-                circle[i].resolveCollision(circle[j]);
+                circle[i].coll.resolveCollision(circle[i], circle[j]);
             } else {
                 circle[i].acc.y = gravity;
                 circle[j].acc.y = gravity;

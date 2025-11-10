@@ -30,7 +30,7 @@ export class Vector {
    * @param {Vector|Object} other - Vector or {x,y,z} to add.
    * @returns {this} For chaining.
    */
-   
+  
   addMutate(other) {
     const ox = other.x ?? other.x_axis ?? 0;
     const oy = other.y ?? other.y_axis ?? 0;
@@ -41,14 +41,26 @@ export class Vector {
     return this;
   }
   
- /**
-  * Create a magnitude of a vector 
-  * @param {Null } null 
-  * @return {number} returning a number with some magnitude 
-  * 
-  */
-  magVec(){
-    return Math.sqrt(this**2+this.y**2+this.z**2);
+  /**
+   * Subtract vector with another
+   * @param {Vector|Object} other - Vector or {x,y,z} to sub.
+   * @returns {Vector} New vector after subtracting components.
+   */
+  sub(other) {
+    const ox = other.x ?? other.x_axis ?? 0;
+    const oy = other.y ?? other.y_axis ?? 0;
+    const oz = other.z ?? other.z_axis ?? 0;
+    return new Vector(ox - this.x, oy - this.y, oz - this.z);
+  }
+  
+  /**
+   * Create a magnitude of a vector 
+   * @param {Null } null 
+   * @return {number} returning a number with some magnitude 
+   * 
+   */
+  magVec() {
+    return Math.sqrt(this ** 2 + this.y ** 2 + this.z ** 2);
   }
   
   
