@@ -1,29 +1,15 @@
 //
 import {collisionResolve} from './collision_resolve.js';
+import {Vector} from './mathLib.js';
 var canvas = document.querySelector('canvas');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 var c = canvas.getContext('2d');
 
 
-//create a vector function
-class Vector {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
-        return { x: this.x, y: this.y };
-    }
-}
-
-
 //function to pick an random values
 function getRandom(lVal, hVal) {
     return Math.floor(Math.random() * (hVal - lVal) + lVal);
-}
-
-function addition(a1, a2) {
-    a1.x += a2.x;
-    a1.y += a2.y;
 }
 
 function Circle(x, y, r) {
@@ -57,7 +43,7 @@ function Circle(x, y, r) {
     this.update = function() {
         //acceleration
         //this.draw();
-        addition(this.vel, this.acc);
+        this.vel.addMutate(this.acc); //added force on the balls
         if (this.pos.x + this.radius > innerWidth) {
             this.pos.x = innerWidth - this.radius;
             this.vel.x *= -1;
@@ -77,7 +63,7 @@ function Circle(x, y, r) {
         if (this.acc < .1) {
             this.vel = 0;
         }
-        addition(this.pos, this.vel);
+        this.pos.addMutate(this.vel);
     };
 
     //collision detection
@@ -95,9 +81,9 @@ function Circle(x, y, r) {
      *
      * Takes velocities and alters them as if the coordinate system they're on was rotated
      *
-     * @param  Object | velocity | The velocity of an individual particle
-     * @param  Float  | angle    | The angle of collision between two objects in radians
-     * @return Object | The altered x and y velocities after the coordinate system has been rotated
+     * @param  {Object|velocity} Velocity of an individual particle
+     * @param  {Float} angle    The angle of collision between two objects in radians
+     * @return {Object} altered x and y velocities after the coordinate system has been rotated
      */
 
     function rotateAng(velocity, angle) {
@@ -112,9 +98,9 @@ function Circle(x, y, r) {
      * Swaps out two colliding particles' x and y velocities after running through
      * an elastic collision reaction equation
      *
-     * @param  Object | particle      | A particle object with x and y coordinates, plus velocity
-     * @param  Object | otherParticle | A particle object with x and y coordinates, plus velocity
-     * @return Null | Does not return a value
+     * @param  {Object | particle} A particle object with x and y coordinates, plus velocity
+     * @param  {Object | otherParticle} A particle object with x and y coordinates, plus velocity
+     * @return {Null }Does not return a value
      */
     this.resolveCollision = function(other) {
         const xVelocityDiff = this.vel.x - other.vel.x;
@@ -167,10 +153,10 @@ function distanceCheck(x1, y1, x2, y2, r1, r2) {
     }
 }
 
-circle = []; //create a ball array
-radius = [];
-var no_Of_Ball = 40;
-var rad = 16;
+const circle = []; //create a ball array
+const radius = [];
+var no_Of_Ball = 10;
+var rad = 10;
 let x;
 let y;
 const gravity= 0.01;
