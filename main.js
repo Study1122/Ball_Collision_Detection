@@ -21,7 +21,7 @@ const radius = [];
 const no_of_ball = 20;
 let rad = 30;
 const mass = 1;
-const gravity = 0.0;
+const gravity = 0.01;
 
 for (let i = 0; i < no_of_ball; i++) {
     rad = getRandom(5, 50);
@@ -50,6 +50,10 @@ for (let i = 0; i < no_of_ball; i++) {
 }
 //create an animate function
 function animate() {
+    //apply gravity first 
+    for (var i = 0; i < circles.length; i++) {
+        circles[i].acc.y = gravity;
+    }
     //animate function
     requestAnimationFrame(animate);
     c.beginPath();
@@ -61,14 +65,29 @@ function animate() {
             if (i !== j && circles[i].collided(circles[j])) {
                 //if collided then
                 collider.resolveCollision(circles[i], circles[j]);
-            } else {
-                circles[i].acc.y = gravity;
-                circles[j].acc.y = gravity;
+                
+                // --- POSITION CORRECTION ---
+                const dx = circles[j].pos.x - circles[i].pos.x;
+                const dy = circles[j].pos.y - circles[i].pos.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                const overlap = circles[i].radius + circles[j].radius - dist;
+                
+                if (overlap > 0) {
+                    const correction = overlap / 2;
+                    const nx = dx / dist;
+                    const ny = dy / dist;
+                    
+                    // Push them apart
+                    circles[i].pos.x -= nx * correction;
+                    circles[i].pos.y -= ny * correction;
+                    circles[j].pos.x += nx * correction;
+                    circles[j].pos.y += ny * correction;
+                }
             }
         }
         //for each circles
         circles[i].draw(c); //draw function
-        //circles[i].update(); //update function
+        circles[i].update(); //update function
     }
 }
 //call the animate function to perform all

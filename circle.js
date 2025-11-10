@@ -17,17 +17,19 @@ export class Circle {
     this.acc = new Vector(0, 0);
     
     //collision detection
-    this.collided = function(other) {
-      var dx = other.pos.x - this.pos.x;
-      var dy = other.pos.y - this.pos.y;
-      const dist = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
-      if (dist < this.radius + other.radius) {
-        return true;
-      } else {
-        return false;
-      }
-    };
+    
   };
+  
+  collided(other) {
+    var dx = other.pos.x - this.pos.x;
+    var dy = other.pos.y - this.pos.y;
+    const dist = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
+    if (dist < this.radius + other.radius) {
+      return true;
+    } else {
+      return false;
+    }
+  }
   
   getRandom(lVal, hVal) {
     let data = Math.floor(Math.random() * (hVal - lVal) + lVal);
