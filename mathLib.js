@@ -20,7 +20,7 @@ export class Vector {
    * @param {numbers} take the cordinate of balls
    * @return {boolean} if condition fulfill return true else false
    */
-  distanceCheck(one, other){
+  distanceCheck(one, other) {
     var dx = other.x - one.x;
     var dy = other.y - one.y;
     var dist = Math.sqrt(dx ** 2 + dy ** 2);
@@ -70,14 +70,86 @@ export class Vector {
     return new Vector(ox - this.x, oy - this.y, oz - this.z);
   }
   
+  
+  
   /**
-   * Create a magnitude of a vector 
-   * @param {Null } null 
-   * @return {number} returning a number with some magnitude 
-   * 
+   * Get a unit vector (normalized, length 1) of this vector.
+   * @returns {Vector} New unit vector (returns zero vector if mag=0).
    */
-  magVec() {
+  unitVector() {
+    const mag = this.magnitude();
+    if (magnitude == 0) {
+      return new Vector(0, 0, 0);
+    }
+    return new Vector(this.x / magnitude, this.y / magnitude, this.z / magnitude);
+  }
+  
+  
+  /**
+   * Get the magnitude (length) of this vector.
+   * @returns {number} The magnitude.
+   */
+  magnitude() {
     return Math.sqrt(this ** 2 + this.y ** 2 + this.z ** 2);
+  }
+  
+  /**
+   * Scalar multiply this vector (scale by a number).
+   * @param {number} scalar - Number to multiply each component by.
+   * @returns {Vector} New scaled vector.
+   */
+  mult(scalar) {
+    if (typeof scalar !== 'number') {
+      throw new TypeError('Scalar must be a number');
+    }
+    return new Vector(this.x * scalar, this.y * scalar, this.z * scalar);
+  }
+  
+  /**
+   * Mutate this vector by scalar multiplying (in-place).
+   * @param {number} scalar - Number to multiply each component by.
+   * @returns {this} For chaining.
+   */
+  multMutate(scalar) {
+    if (typeof scalar !== 'number') {
+      throw new TypeError('Scalar must be a number');
+    }
+    this.x *= scalar;
+    this.y *= scalar;
+    this.z *= scalar;
+    return this;
+  }
+  
+  /**
+   * Dot product with another vector (scalar result).
+   * @param {Vector|Object} other - Vector or {x,y,z} for dot product.
+   * @returns {number} The dot product scalar.
+   */
+  dot(other) {
+    const ox = other.x ?? other.x_axis ?? 0;
+    const oy = other.y ?? other.y_axis ?? 0;
+    const oz = other.z ?? other.z_axis ?? 0;
+    return this.x * ox + this.y * oy + this.z * oz;
+  }
+  
+  /**
+   * Cross product with another vector (3D vector result, perpendicular to both).
+   * @param {Vector|Object} other - Vector or {x,y,z} for cross product.
+   * @returns {Vector} New vector from cross product.
+   * @throws {Error} If not 3D vectors.
+   */
+  cross(other) {
+    const ox = other.x ?? other.x_axis ?? 0;
+    const oy = other.y ?? other.y_axis ?? 0;
+    const oz = other.z ?? other.z_axis ?? 0;
+    if (this.z === undefined || oz === undefined) {
+      throw new Error('Cross product requires 3D vectors');
+    }
+    return new Vector(
+      this.y * oz - this.z * oy,
+      this.z * ox - this.x * oz,
+      this.x * oy - this.y * ox
+    );
   }
   
   toObject() {
