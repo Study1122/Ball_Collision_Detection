@@ -11,6 +11,8 @@ export class Circle {
     this.y = y;
     this.radius = r;
     this.mass = m;
+    this.stroke = "black";
+    this.fill = "cyan";
     this.v = Math.random() - .5;
     this.pos = new Vector(this.x, this.y);
     this.vel = new Vector(this.v, this.v);
@@ -45,28 +47,31 @@ export class Circle {
   draw(c) {
     c.beginPath();
     c.arc(this.pos.x, this.pos.y, this.radius, 0, Math.PI * 2);
-    c.strokeStyle = "black";
+    c.fillStyle = this.fill; // Set fill color (add 'fill' property to your object)
+    c.fill(); // Fill the circle
+    c.strokeStyle = this.stroke;
     c.stroke();
   }
-  update() {
+  update(damp) {
+    const damping = damp;
     //added force on the balls
     this.vel.addMutate(this.acc);
     
     if (this.pos.x + this.radius > innerWidth) {
       this.pos.x = innerWidth - this.radius;
-      this.vel.x *= -1;
+      this.vel.x *= -damping;
     }
     if (this.pos.x < this.radius) {
       this.pos.x = this.radius;
-      this.vel.x *= -1;
+      this.vel.x *= -damping;
     }
     if (this.pos.y + this.radius > innerHeight) {
       this.pos.y = innerHeight - this.radius;
-      this.vel.y *= -.51;
+      this.vel.y *= -damping;
     }
     if (this.pos.y < this.radius) {
       this.pos.y = this.radius;
-      this.vel.y *= -1;
+      this.vel.y *= -damping;
     }
     this.pos.addMutate(this.vel);
   };
