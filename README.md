@@ -107,7 +107,7 @@ Example command to create a GIF from a short screen recording:
 ## 🖼️ Preview
 
 <p align="center">
-  <img src="./gif/collision.gif" alt="Ball Collision Simulation Preview" style="transform: rotate(-90deg);" width="400">
+  <img src="./gif/collision.gif" alt="Ball Collision Simulation Preview" style="transform: rotate(-90deg); width="400";">
 </p>
 
 ---
