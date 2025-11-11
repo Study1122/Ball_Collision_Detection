@@ -12,11 +12,51 @@ export class Vector {
     this.x = x;
     this.y = y;
     this.z = z;
-    
-    
-  };
+  }
+  
+  clone() {
+    return new Vector(this.x, this.y, this.z);
+  }
+  
+  // ────────────────────────────────
+  // 🧭 2D Vector Helper Functions
+  // ────────────────────────────────
+  
+  /** 
+   * Get the angle (in radians) of this vector relative to the x-axis. 
+   * @returns {number}
+   */
+  heading() {
+    return Math.atan2(this.y, this.x);
+  }
+  
+  /** 
+   * Rotate this vector by a given angle (radians) — returns new vector. 
+   * @param {number} angle 
+   * @returns {Vector}
+   */
+  rotate(angle) {
+    const cosA = Math.cos(angle);
+    const sinA = Math.sin(angle);
+    const x = this.x * cosA - this.y * sinA;
+    const y = this.x * sinA + this.y * cosA;
+    return new Vector(x, y, this.z);
+  }
+  
   /**
-   * avoid overlapping ,creating function to check weather one ball touch another
+   * Compute angle (in radians) between this vector and another.
+   * @param {Vector} other 
+   * @returns {number}
+   */
+  angleBetween(other) {
+    const dotVal = this.dot(other);
+    const mags = this.magnitude() * other.magnitude();
+    if (mags === 0) return 0;
+    return Math.acos(Math.min(Math.max(dotVal / mags, -1), 1)); // clamp for precision
+  }
+  
+  /**
+   * avoid overlapping ,creating function to check whether one ball touch another
    * @param {numbers} take the cordinate of balls
    * @return {boolean} if condition fulfill return true else false
    */
@@ -24,7 +64,7 @@ export class Vector {
     var dx = other.x - one.x;
     var dy = other.y - one.y;
     var dist = Math.sqrt(dx ** 2 + dy ** 2);
-    if (dist < other.radius + other.radius) {
+    if (dist < one.radius + other.radius) {
       return true;
     } else {
       return false;
@@ -67,10 +107,8 @@ export class Vector {
     const ox = other.x ?? other.x_axis ?? 0;
     const oy = other.y ?? other.y_axis ?? 0;
     const oz = other.z ?? other.z_axis ?? 0;
-    return new Vector(ox - this.x, oy - this.y, oz - this.z);
+    return new Vector(this.x - ox, this.y - oy, this.z - oz);
   }
-  
-  
   
   /**
    * Get a unit vector (normalized, length 1) of this vector.
@@ -78,10 +116,10 @@ export class Vector {
    */
   unitVector() {
     const mag = this.magnitude();
-    if (magnitude == 0) {
+    if (mag == 0) {
       return new Vector(0, 0, 0);
     }
-    return new Vector(this.x / magnitude, this.y / magnitude, this.z / magnitude);
+    return new Vector(this.x / mag, this.y / mag, this.z / mag);
   }
   
   
@@ -90,7 +128,29 @@ export class Vector {
    * @returns {number} The magnitude.
    */
   magnitude() {
-    return Math.sqrt(this ** 2 + this.y ** 2 + this.z ** 2);
+    return Math.sqrt(this.x ** 2 + this.y ** 2 + this.z ** 2);
+  }
+  
+  /**
+   * Limit the magnitude of this vector (returns new vector).
+   * @param {number} max 
+   * @returns {Vector}
+   */
+  limitMag(max) {
+    const mag = this.magnitude();
+    if (mag > max) {
+      return this.unitVector().mult(max);
+    }
+    return this.clone();
+  }
+  
+  /**
+   * Set vector to a specific magnitude (returns new vector).
+   * @param {number} newMag 
+   * @returns {Vector}
+   */
+  setMag(newMag) {
+    return this.unitVector().mult(newMag);
   }
   
   /**

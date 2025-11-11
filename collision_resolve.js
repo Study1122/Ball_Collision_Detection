@@ -1,3 +1,5 @@
+import {Vector} from './mathLib.js';
+
 /**         */
 //collision resolving
 //Utility functions

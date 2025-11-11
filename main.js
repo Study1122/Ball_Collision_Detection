@@ -18,7 +18,7 @@ let collider = new Collision();
 
 const circles = [];
 const radius = [];
-const no_of_ball = 500;
+const no_of_ball = 50;
 let rad = 15;
 const mass = 1;
 const damping = .71;
@@ -105,9 +105,12 @@ function animate() {
                 
                 if (overlap > 0 && dist > 0) {
                     const correction = overlap / 2;
+                    const unit = delta.unitVector();
+                    const correct = unit.mult(correction);
                     // Push them apart
-                    circles[i].pos.subMutate(delta.unitVector.mult(correction));
-                    circles[j].pos.addMutate(delta.unitVector.mult(correction));
+                    
+                    circles[i].pos.sub(correct);
+                    circles[j].pos.addMutate(correct);
                 }
             }
         }
