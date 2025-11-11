@@ -107,7 +107,7 @@ Example command to create a GIF from a short screen recording:
 ## 🖼️ Preview
 
 <p align="center">
-  <img src="./gif/collision.gif" alt="Ball Collision Simulation Preview" width="400">
+  <img src="./gif/collision.gif" alt="Ball Collision Simulation Preview" style="transform: rotate(-90deg);" width="400">
 </p>
 
 ---
@@ -131,5 +131,3 @@ Whether it's improving the physics accuracy, enhancing visuals, or optimizing pe
   <sub>Developed with ❤️ by <a href="https://github.com/Study1122">Study1122</a></sub>
 </div>
 ---
-
-This version reads cleanly on both desktop and mobile GitHub views, includes visual hierarchy, and gives a professional open-source presentation.
