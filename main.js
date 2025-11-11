@@ -18,7 +18,7 @@ let collider = new Collision();
 
 const circles = [];
 const radius = [];
-const no_of_ball = 500;
+const no_of_ball = 100;
 let rad = 10;
 const mass = 1;
 const damping = .71;
@@ -26,7 +26,7 @@ const gravity = new Vector(0, 0);
 const gravityScale = .1;
 
 for (let i = 0; i < no_of_ball; i++) {
-    //rad = getRandom(5, 30);
+    rad = getRandom(5, 30);
     let x = getRandom(rad, innerWidth - rad);
     let y = getRandom(rad, innerHeight - rad);
     
