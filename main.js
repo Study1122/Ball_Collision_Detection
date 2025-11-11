@@ -14,20 +14,25 @@ function getRandom(lVal, hVal) {
     return Math.floor(Math.random() * (hVal - lVal) + lVal);
 }
 
-let collider = new Collision();
+let collider = new Collision({
+    elasticity: 0.85, // slightly soft collisions
+    friction: 0.97,   // tangential friction
+    damping: 0.992    // air resistance
+});
 
 const circles = [];
 const radius = [];
 const no_of_ball = 100;
 let rad = 10;
 let mass = 1;
-const elasticity = .7;
+const elasticity = 0.75;
+const friction = 0.97;
 const gravity = new Vector(0, 0);
 const gravityScale = .1;
 
 for (let i = 0; i < no_of_ball; i++) {
     rad = getRandom(5, 30);
-    mass = 1 + rad * 0.2;
+    mass = 1 + rad * 0.1;
     let x = getRandom(rad, innerWidth - rad);
     let y = getRandom(rad, innerHeight - rad);
     
@@ -64,7 +69,11 @@ window.addEventListener('deviceorientation', (event) => {
 
 //create an animate function
 function animate() {
-    //apply gravity first 
+    //apply gravity first
+    circles.forEach(circle=>{
+        collider.applyDamping(circle);
+    });
+    
     for (var i = 0; i < circles.length; i++) {
         circles[i].acc.x = gravity.x;
         circles[i].acc.y = gravity.y;
@@ -84,7 +93,7 @@ function animate() {
         }
         //for each circles
         circles[i].draw(c); //draw function
-        circles[i].update(elasticity); //update function
+        circles[i].update(elasticity, friction); //update function
     }
 }
 //call the animate function to perform all

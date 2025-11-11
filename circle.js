@@ -52,26 +52,31 @@ export class Circle {
     c.strokeStyle = this.stroke;
     c.stroke();
   }
-  update(e) {
-    const elasticity = e;
+  update(e,f) {
+    let elasticity = e;
+    let friction= f;
     //added force on the balls
     this.vel.addMutate(this.acc);
     
     if (this.pos.x + this.radius > innerWidth) {
       this.pos.x = innerWidth - this.radius;
-      this.vel.x *= -elasticity;
+      this.vel.x *= -friction;
+      this.vel.y *= elasticity;
     }
     if (this.pos.x < this.radius) {
       this.pos.x = this.radius;
-      this.vel.x *= -elasticity;
+      this.vel.x *= -friction;
+      this.vel.y *= elasticity;
     }
     if (this.pos.y + this.radius > innerHeight) {
       this.pos.y = innerHeight - this.radius;
       this.vel.y *= -elasticity;
+      this.vel.x *= friction;
     }
     if (this.pos.y < this.radius) {
       this.pos.y = this.radius;
       this.vel.y *= -elasticity;
+      this.vel.x *= friction;
     }
     this.pos.addMutate(this.vel);
   };

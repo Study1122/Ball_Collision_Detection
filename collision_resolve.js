@@ -3,7 +3,17 @@ import { Vector } from './mathLib.js';
 //collision resolving
 //Utility functions
 export class Collision {
-    constructor() {};
+    constructor(options = {}) {
+        this.elasticity = options.elasticity ?? 0.9; // 1 = perfectly elastic
+        this.friction = options.friction ?? 0.98; // tangential velocity damping
+        this.damping = options.damping ?? 0.995; // air resistance per frame
+    }
+    
+    // Apply damping (air resistance) per frame
+    applyDamping(particle) {
+        particle.vx *= this.damping;
+        particle.vy *= this.damping;
+    }
     
     /**
      * Swaps out two colliding particles' x and y velocities after running through
@@ -31,8 +41,13 @@ export class Collision {
             const u2 = other.vel.rotate(angle);
             
             // Velocity after 1d collision equation
-            const v1 = new Vector((u1.x * (m1 - m2)) / (m1 + m2) + (u2.x * (2 * m2)) / (m1 + m2), u1.y);
-            const v2 = new Vector((u2.x * (m1 - m2)) / (m1 + m2) + (u1.x * (2 * m2)) / (m1 + m2), u2.y);
+            
+            const v1 = new Vector((u1.x * (m1 - m2)) / (m1 + m2) * this.elasticity +
+                (u2.x * (2 * m2)) / (m1 + m2), u1.y * this.friction);
+            
+            const v2 = new Vector((u2.x * (m1 - m2)) / (m1 + m2) * this.elasticity +
+                (u1.x * (2 * m2)) / (m1 + m2),
+                u2.y * this.friction);
             
             const vFinal1 = v1.rotate(-angle);
             const vFinal2 = v2.rotate(-angle);
