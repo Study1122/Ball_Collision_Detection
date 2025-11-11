@@ -104,10 +104,11 @@ cd Ball_Collision_Detection
 
 Add your own demo preview by including a preview.gif in the repository root.
 Example command to create a GIF from a short screen recording:
-<div align="centre">
-![Simulation Preview](../gif/collision.gif)
+## 🖼️ Preview
 
-</div>
+<p align="center">
+  <img src="./gif/collision.gif" alt="Ball Collision Simulation Preview" width="700">
+</p>
 
 ---
 
