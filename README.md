@@ -17,6 +17,15 @@ Built purely with **HTML5 Canvas** and **Vanilla JavaScript**, it showcases how 
 
 ---
 
+## 🔗 Useful Links
+
+- 🌐 [Live Demo](https://study1122.github.io/Ball_Collision_Detection/)
+- 📦 [Source Code](https://github.com/Study1122/Ball_Collision_Detection)
+- 👨‍💻 [Author – Study1122](https://github.com/Study1122)
+ 
+
+---
+
 ## ✨ Core Features
 
 - 🎯 **Accurate collision detection** between multiple moving balls  
@@ -63,15 +72,15 @@ cd Ball_Collision_Detection
 
 ## 🧩 Key Concepts Demonstrated
 
-2D vector algebra and trigonometric rotation
+- 2D vector algebra and trigonometric rotation
 
-Conservation of momentum and kinetic energy
+- Conservation of momentum and kinetic energy
 
-Elastic vs. inelastic collision resolution
+- Elastic vs. inelastic collision resolution
 
-Canvas animation loop and frame rendering
+- Canvas animation loop and frame rendering
 
-Modular JavaScript architecture
+- Modular JavaScript architecture
 
 
 ---
@@ -91,7 +100,7 @@ Modular JavaScript architecture
 
 ---
 
-### 🖼️ Preview
+## 🖼️ Preview
 
 Add your own demo preview by including a preview.gif in the repository root.
 Example command to create a GIF from a short screen recording:
@@ -101,7 +110,7 @@ ffmpeg -i screenrecord.mp4 -vf "scale=700:-1" preview.gif
 
 ---
 
-### 🤝 Contributing
+# 🤝 Contributing
 
 Contributions are welcome!
 Whether it's improving the physics accuracy, enhancing visuals, or optimizing performance — feel free to fork, modify, and submit a pull request.
@@ -112,7 +121,7 @@ Whether it's improving the physics accuracy, enhancing visuals, or optimizing pe
 ## 📜 License
 
 - Distributed under the `MIT License`.
-- See LICENSE for more details.
+- See 🪪 [License](LICENSE) for more details.
 
 ---
 
