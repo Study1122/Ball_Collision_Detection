@@ -21,13 +21,13 @@ const radius = [];
 const no_of_ball = 100;
 let rad = 10;
 let mass = 1;
-const damping = .71;
+const elasticity = .7;
 const gravity = new Vector(0, 0);
 const gravityScale = .1;
 
 for (let i = 0; i < no_of_ball; i++) {
     rad = getRandom(5, 30);
-    mass = rad * 0.0005;
+    mass = 1 + rad * 0.2;
     let x = getRandom(rad, innerWidth - rad);
     let y = getRandom(rad, innerHeight - rad);
     
@@ -84,7 +84,7 @@ function animate() {
         }
         //for each circles
         circles[i].draw(c); //draw function
-        circles[i].update(damping); //update function
+        circles[i].update(elasticity); //update function
     }
 }
 //call the animate function to perform all
