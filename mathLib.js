@@ -44,7 +44,8 @@ export class Vector {
   }
   
   /**
-   * Compute angle (in radians) between this vector and another.
+   * Compute angle (in radians) between this vector and another 
+   * without sign(direction) ⬇️✖️⬇️only magnitude 
    * @param {Vector} other 
    * @returns {number}
    */
@@ -55,6 +56,15 @@ export class Vector {
     return Math.acos(Math.min(Math.max(dotVal / mags, -1), 1)); // clamp for precision
   }
   
+  /**
+   * Compute angle (in radians) between this vector and another 
+   * with sign 
+   * @param {Vector} other 
+   * @returns {number} with sign(direction) ⬇️ ⬆️ and magnitude 
+   */
+  angle(other) {
+    return Math.atan2(other.y - this.y, other.x - this.x);
+  }
   /**
    * avoid overlapping ,creating function to check whether one ball touch another
    * @param {numbers} take the cordinate of balls
@@ -108,6 +118,22 @@ export class Vector {
     const oy = other.y ?? other.y_axis ?? 0;
     const oz = other.z ?? other.z_axis ?? 0;
     return new Vector(this.x - ox, this.y - oy, this.z - oz);
+  }
+  
+  /**
+   * Mutates this vector by substracting from another (in-place).
+   * @param {Vector|Object} other - Vector or {x,y,z} to add.
+   * @returns {this} For chaining.
+   */
+  
+  subMutate(other) {
+    const ox = other.x ?? other.x_axis ?? 0;
+    const oy = other.y ?? other.y_axis ?? 0;
+    const oz = other.z ?? other.z_axis ?? 0;
+    this.x -= ox;
+    this.y -= oy;
+    this.z -= oz;
+    return this;
   }
   
   /**
