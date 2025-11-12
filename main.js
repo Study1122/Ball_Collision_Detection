@@ -22,7 +22,7 @@ let collider = new Collision({
 
 const balls = [];
 const radius = [];
-const no_of_ball = 20;
+const no_of_ball = 30;
 let rad = 5;
 let mass = 1;
 const elasticity = 0.75;
@@ -31,7 +31,7 @@ const gravity = new Vector(0, 0);
 const gravityScale = .1;
 
 for (let i = 0; i < no_of_ball; i++) {
-    rad = getRandom(5, 50);
+    rad = getRandom(5, 30);
     mass = 1 + rad * 0.1;
     let x = getRandom(rad, innerWidth - rad);
     let y = getRandom(rad, innerHeight - rad);
