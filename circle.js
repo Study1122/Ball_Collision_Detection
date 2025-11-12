@@ -3,7 +3,7 @@ import { Vector } from './mathLib.js';
 export class Circle {
   constructor(x, y, r, m = 1) {
     //write code here...
-    if (typeof x !== 'number', typeof x !== 'number', typeof x !== 'number', (m !== undefined && typeof m !==
+    if (typeof x !== 'number', typeof y !== 'number', typeof r !== 'number', (m !== undefined && typeof m !==
         'number')) {
       throw new TypeError("agrs val must be numbers");
     }
@@ -32,18 +32,7 @@ export class Circle {
       return false;
     }
   }
-  
-  getRandom(lVal, hVal) {
-    let data = Math.floor(Math.random() * (hVal - lVal) + lVal);
-    return data;
-  }
-  
-  distance(x1, y1, x2, y2) {
-    var dx = x2 - x1;
-    var dy = y2 - y1;
-    return Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2));
-  }
-  
+
   draw(c) {
     c.beginPath();
     c.arc(this.pos.x, this.pos.y, this.radius, 0, Math.PI * 2);
@@ -55,7 +44,7 @@ export class Circle {
     
   }
   
-  line(c, v) {
+  arrow(c, v) {
     //type here...
     
     let dir = v.clone().setMag(v.magnitude()*(1+this.radius*.3));

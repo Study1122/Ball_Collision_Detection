@@ -96,7 +96,7 @@ function animate() {
         collider.applyDamping(ball);
         ball.draw(c); //draw function
         ball.update(elasticity, friction); //update functio
-        ball.line(c, ball.vel);
+        ball.arrow(c, ball.vel);
     });
 }
 //call the animate function to perform all
