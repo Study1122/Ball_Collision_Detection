@@ -49,12 +49,27 @@ export class Circle {
     c.arc(this.pos.x, this.pos.y, this.radius, 0, Math.PI * 2);
     c.fillStyle = this.fill; // Set fill color (add 'fill' property to your object)
     c.fill(); // Fill the circle
+    c.lineWidth = 1;
     c.strokeStyle = this.stroke;
     c.stroke();
+    
   }
-  update(e,f) {
+  
+  line(c, v) {
+    //type here...
+    
+    let dir = v.clone().setMag(v.magnitude()*(1+this.radius*.3));
+    c.beginPath();
+    c.moveTo(this.pos.x, this.pos.y);
+    c.lineTo(this.pos.x + dir.x, this.pos.y + dir.y);
+    c.lineWidth = .51; // Thickness of the line
+    c.strokeStyle = 'blue'; // Color of the line
+    c.stroke();
+  }
+  
+  update(e, f) {
     let elasticity = e;
-    let friction= f;
+    let friction = f;
     //added force on the balls
     this.vel.addMutate(this.acc);
     

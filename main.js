@@ -15,15 +15,15 @@ function getRandom(lVal, hVal) {
 }
 
 let collider = new Collision({
-    elasticity: 0.85, // slightly soft collisions
-    friction: 0.97,   // tangential friction
-    damping: 0.992    // air resistance
+    elasticity: 0.65, // slightly soft collisions
+    friction: 0.97, // tangential friction
+    damping: 0.792 // air resistance
 });
 
-const circles = [];
+const balls = [];
 const radius = [];
-const no_of_ball = 100;
-let rad = 10;
+const no_of_ball = 20;
+let rad = 5;
 let mass = 1;
 const elasticity = 0.75;
 const friction = 0.97;
@@ -31,30 +31,31 @@ const gravity = new Vector(0, 0);
 const gravityScale = .1;
 
 for (let i = 0; i < no_of_ball; i++) {
-    rad = getRandom(5, 30);
+    rad = getRandom(5, 50);
     mass = 1 + rad * 0.1;
     let x = getRandom(rad, innerWidth - rad);
     let y = getRandom(rad, innerHeight - rad);
     
-    let newCircle = new Circle(x, y, rad, mass);
+    let newBall = new Circle(x, y, rad, mass);
     
     // Check overlap with existing circles
     let overlapping = false;
     do {
         overlapping = false;
-        for (let j = 0; j < circles.length; j++) {
-            if (newCircle.collided(circles[j])) {
+        for (let j = 0; j < balls.length; j++) {
+            if (newBall.collided(balls[j])) {
                 overlapping = true;
                 x = getRandom(rad, innerWidth - rad);
                 y = getRandom(rad, innerHeight - rad);
-                newCircle = new Circle(x, y, rad, mass);
+                newBall = new Circle(x, y, rad, mass);
                 break;
             }
         }
-    } while (overlapping);
+    }
+    while (overlapping);
     
     radius.push(rad);
-    circles.push(newCircle);
+    balls.push(newBall);
 }
 
 
@@ -70,31 +71,33 @@ window.addEventListener('deviceorientation', (event) => {
 //create an animate function
 function animate() {
     //apply gravity first
-    circles.forEach(circle=>{
-        collider.applyDamping(circle);
-    });
     
-    for (var i = 0; i < circles.length; i++) {
-        circles[i].acc.x = gravity.x;
-        circles[i].acc.y = gravity.y;
+    for (var i = 0; i < balls.length; i++) {
+        balls[i].acc.x = gravity.x;
+        balls[i].acc.y = gravity.y;
     }
     //animate function
     requestAnimationFrame(animate);
     c.beginPath();
     //clear the background for each frame
     c.clearRect(0, 0, innerWidth, innerHeight);
-    for (var i = 0; i < circles.length; i++) {
-        for (var j = 0; j < circles.length; j++) {
+    for (var i = 0; i < balls.length; i++) {
+        for (var j = 0; j < balls.length; j++) {
             //call collided function to check not to collide
-            if (i !== j && circles[i].collided(circles[j])) {
+            if (i !== j && balls[i].collided(balls[j])) {
                 //if collided then
-                collider.resolveCollision(circles[i], circles[j]);
+                collider.resolveCollision(balls[i], balls[j]);
             }
         }
         //for each circles
-        circles[i].draw(c); //draw function
-        circles[i].update(elasticity, friction); //update function
+        
     }
+    balls.forEach(ball => {
+        collider.applyDamping(ball);
+        ball.draw(c); //draw function
+        ball.update(elasticity, friction); //update functio
+        ball.line(c, ball.vel);
+    });
 }
 //call the animate function to perform all
 animate();
