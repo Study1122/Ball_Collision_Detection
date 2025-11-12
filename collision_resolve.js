@@ -10,9 +10,8 @@ export class Collision {
     }
     
     // Apply damping (air resistance) per frame
-    applyDamping(particle) {
-        particle.vx *= this.damping;
-        particle.vy *= this.damping;
+    applyDamping(particle, damping) {
+        particle.vel.x *= damping;
     }
     
     /**

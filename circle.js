@@ -5,7 +5,7 @@ export class Circle {
     //write code here...
     if (typeof x !== 'number' || typeof y !== 'number' || typeof r !== 'number' || (m !== undefined && typeof m !==
         'number')) {
-      throw new TypeError("agrs val must be numbers");
+      throw new TypeError("Argument values must be numbers");
     }
     this.x = x;
     this.y = y;
@@ -30,8 +30,10 @@ export class Circle {
     c.arc(this.pos.x, this.pos.y, this.radius, 0, Math.PI * 2);
     c.fillStyle = "cyan"; // Set fill color (add 'fill' property to your object)
     c.fill(); // Fill the circle
-    c.lineWidth = 1;
-    c.strokeStyle = "black";
+    c.lineWidth = .5;
+    c.strokeStyle = "gray";
+    c.shadowColor = "rgba(0,0,0,0.2)"; 
+    c.shadowBlur = 3;
     c.stroke();
     
   }
@@ -56,13 +58,13 @@ export class Circle {
     
     if (this.pos.x + this.radius > innerWidth) {
       this.pos.x = innerWidth - this.radius;
-      this.vel.x *= -friction;
-      this.vel.y *= elasticity;
+      this.vel.y *= friction;
+      this.vel.x *= -elasticity;
     }
     if (this.pos.x < this.radius) {
       this.pos.x = this.radius;
-      this.vel.x *= -friction;
-      this.vel.y *= elasticity;
+      this.vel.y *= friction;
+      this.vel.x *= -elasticity;
     }
     if (this.pos.y + this.radius > innerHeight) {
       this.pos.y = innerHeight - this.radius;
@@ -75,5 +77,6 @@ export class Circle {
       this.vel.x *= friction;
     }
     this.pos.addMutate(this.vel);
+    this.acc.mult(0);
   };
 }

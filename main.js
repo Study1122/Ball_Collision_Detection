@@ -17,22 +17,49 @@ function getRandom(lVal, hVal) {
 let collider = new Collision({
     elasticity: 0.65, // slightly soft collisions
     friction: 0.97, // tangential friction
-    damping: 0.792 // air resistance
+    damping: 0.992 // air resistance
 });
+
+// UI configuration object
+const physicsParams = {
+    gravityScale: 0.91,
+    elasticity: 0.75,
+    friction: 0.97,
+    damping: 0.692,
+    addBall: () => addBall(),
+    removeBall: () => balls.pop(),
+    clearBalls: () => { balls.length = 0; }
+};
+
+// Initialize dat.GUI
+const gui = new dat.GUI({ width: 300, margin: 0 });
+gui.add(physicsParams, 'gravityScale', 0, 1).step(0.01).name('Gravity');
+gui.add(physicsParams, 'elasticity', 0, 1).step(0.01).name('Elasticity');
+gui.add(physicsParams, 'friction', 0, 1).step(0.01).name('Friction');
+gui.add(physicsParams, 'damping', 0, 1).step(0.01).name('Air Damping');
+gui.add(physicsParams, 'addBall').name('Add Random Ball');
+gui.add(physicsParams, 'removeBall').name('Remove one ball at a time');
+gui.add(physicsParams, 'clearBalls').name('Clear All');
 
 const balls = [];
 const radius = [];
-const no_of_ball = 30;
+const BALL_COUNT = 50;
 let rad = 5;
 let mass = 1;
-const elasticity = 0.75;
-const friction = 0.97;
 const gravity = new Vector(0, 0);
-const gravityScale = .1;
 
-for (let i = 0; i < no_of_ball; i++) {
+function addBall() {
+    let rad = getRandom(5, 30);
+    let mass = 1 + rad * 0.1;
+    let x = getRandom(rad, innerWidth - rad);
+    let y = getRandom(rad, innerHeight - rad);
+    let newBall = new Circle(x, y, rad, mass);
+    balls.push(newBall);
+}
+
+for (let i = 0; i < BALL_COUNT; i++) {
     rad = getRandom(5, 30);
-    mass = 1 + rad * 0.1;
+    mass = 1 + rad * .3;
     let x = getRandom(rad, innerWidth - rad);
     let y = getRandom(rad, innerHeight - rad);
     
@@ -58,13 +85,12 @@ for (let i = 0; i < no_of_ball; i++) {
     balls.push(newBall);
 }
 
-
 window.addEventListener('deviceorientation', (event) => {
     const beta = event.beta || 0;
     const gamma = event.gamma || 0;
     // scaling gravity for realistic effect 
-    gravity.x = (gamma / 90) * gravityScale;
-    gravity.y = (beta / 90) * gravityScale;
+    gravity.x = ((gamma / 90) * physicsParams.gravityScale);
+    gravity.y = ((beta / 90) * physicsParams.gravityScale);
 });
 
 
@@ -78,24 +104,21 @@ function animate() {
     }
     //animate function
     requestAnimationFrame(animate);
-    c.beginPath();
-    //clear the background for each frame
     c.clearRect(0, 0, innerWidth, innerHeight);
     for (var i = 0; i < balls.length; i++) {
-        for (var j = 0; j < balls.length; j++) {
+        for (var j = i + 1; j < balls.length; j++) {
             //call collided function to check not to collide
-            if (i !== j && balls[i].collided(balls[j])) {
+            if (balls[i].collided(balls[j])) {
                 //if collided then
                 collider.resolveCollision(balls[i], balls[j]);
             }
         }
-        //for each circles
-        
     }
+    // inside animate loop
     balls.forEach(ball => {
-        collider.applyDamping(ball);
-        ball.draw(c); //draw function
-        ball.update(elasticity, friction); //update functio
+        collider.applyDamping(ball, physicsParams.damping);
+        ball.update(physicsParams.elasticity, physicsParams.friction);
+        ball.draw(c);
         ball.arrow(c, ball.vel);
     });
 }
