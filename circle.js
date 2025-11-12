@@ -3,7 +3,7 @@ import { Vector } from './mathLib.js';
 export class Circle {
   constructor(x, y, r, m = 1) {
     //write code here...
-    if (typeof x !== 'number', typeof y !== 'number', typeof r !== 'number', (m !== undefined && typeof m !==
+    if (typeof x !== 'number'|| typeof y !== 'number'|| typeof r !== 'number'|| (m !== undefined && typeof m !==
         'number')) {
       throw new TypeError("agrs val must be numbers");
     }
