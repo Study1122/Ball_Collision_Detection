@@ -17,6 +17,35 @@
   
   <!-- Project -->
   <canvas></canvas>
+  <!--Step 1: Create a Simple GUI Panel
+  Add a <div> to your HTML file — this will be your custom control panel:
+  -->
+  <div id="gui">
+    <h3>Physics Controls</h3>
+    <div>
+      <label>Gravity:
+        <input type="range" id="gravity" min="0" max="1" step="0.01" value="0.9">
+        <span id="gravityValue">0.9</span>
+      </label>
+      
+      <label>Elasticity:
+        <input type="range" id="elasticity" min="0" max="1" step="0.01" value="0.75">
+        <span id="elasticityValue">0.75</span>
+      </label>
+      
+      <label>Friction:
+        <input type="range" id="friction" min="0" max="1" step="0.01" value="0.97">
+        <span id="frictionValue">0.97</span>
+      </label>
+    </div>
+    
+    <div>
+      <button id="addBall">Add</button>
+      <button id="removeBall">Remove</button>
+      <button id="clearBalls">Clear All</button>
+    </div>
+    
+  </div>
   <script type="module" src="main.js"></script>
   <script type="module" src="mathLib.js"></script>
   <script type="module" src="circle.js"></script>
