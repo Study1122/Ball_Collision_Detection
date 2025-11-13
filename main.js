@@ -6,9 +6,11 @@ import { Circle } from './circle.js';
 var canvas = document.querySelector('canvas');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
+window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
 var c = canvas.getContext('2d');
-
-
 //function to pick an random values
 function getRandom(lVal, hVal) {
     return Math.floor(Math.random() * (hVal - lVal) + lVal);
@@ -22,12 +24,12 @@ let collider = new Collision({
 
 // UI configuration object
 const physicsParams = {
-    gravityScale: 0.91,
+    gravityScale: 0.9,
     elasticity: 0.75,
     friction: 0.97,
-    damping: 0.692,
+    damping: 0.99,
     addBall: () => addBall(),
-    removeBall: () => balls.pop(),
+    removeBall: () => { if (balls.length() > 0) balls.pop(); },
     clearBalls: () => { balls.length = 0; }
 };
 
@@ -60,7 +62,7 @@ function addBall() {
 for (let i = 0; i < BALL_COUNT; i++) {
     rad = getRandom(5, 30);
     mass = 1 + rad * .3;
-    let x = getRandom(rad, innerWidth - rad);
+    let x = getRandom(rad, innerWidth- rad);
     let y = getRandom(rad, innerHeight - rad);
     
     let newBall = new Circle(x, y, rad, mass);
@@ -80,17 +82,15 @@ for (let i = 0; i < BALL_COUNT; i++) {
         }
     }
     while (overlapping);
-    
-    radius.push(rad);
     balls.push(newBall);
 }
 
 window.addEventListener('deviceorientation', (event) => {
-    const beta = event.beta || 0;
-    const gamma = event.gamma || 0;
+    const beta = event.beta ?? 0;
+    const gamma = event.gamma ?? 0;
     // scaling gravity for realistic effect 
-    gravity.x = ((gamma / 90) * physicsParams.gravityScale);
-    gravity.y = ((beta / 90) * physicsParams.gravityScale);
+    gravity.x = ((gamma / 90) * physicsParams.gravityScale) * .1;
+    gravity.y = ((beta / 90) * physicsParams.gravityScale) * .1;
 });
 
 

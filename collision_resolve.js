@@ -6,7 +6,7 @@ export class Collision {
     constructor(options = {}) {
         this.elasticity = options.elasticity ?? 0.9; // 1 = perfectly elastic
         this.friction = options.friction ?? 0.98; // tangential velocity damping
-        this.damping = options.damping ?? 0.995; // air resistance per frame
+        this.damping = options.damping ?? 0.99; // air resistance per frame
     }
     
     // Apply damping (air resistance) per frame
