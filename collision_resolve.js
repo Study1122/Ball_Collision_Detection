@@ -12,6 +12,7 @@ export class Collision {
     // Apply damping (air resistance) per frame
     applyDamping(particle, damping) {
         particle.vel.x *= damping;
+        particle.vel.y *= damping;
     }
     
     /**
@@ -30,7 +31,7 @@ export class Collision {
         // Prevent accidental overlap of particles
         if (velDiff.dot(distDiff) >= 0) {
             
-            const angle = -other.pos.angle(one.pos);
+            const angle = -one.pos.angle(other.pos);
             // Store mass in var for better readability in collision equation
             const m1 = one.mass;
             const m2 = other.mass;
@@ -41,12 +42,14 @@ export class Collision {
             
             // Velocity after 1d collision equation
             
-            const v1 = new Vector((u1.x * (m1 - m2)) / (m1 + m2) * this.elasticity +
-                (u2.x * (2 * m2)) / (m1 + m2), u1.y * this.friction);
+            const v1 = new Vector(
+                (u1.x * (m1 - m2)) / (m1 + m2) + (u2.x * (2 * m2)) / (m1 + m2), u1.y
+            );
             
-            const v2 = new Vector((u2.x * (m1 - m2)) / (m1 + m2) * this.elasticity +
-                (u1.x * (2 * m2)) / (m1 + m2),
-                u2.y * this.friction);
+            const v2 = new Vector(
+                (u2.x * (m2 - m1)) / (m1 + m2) + (u1.x * (2 * m1)) / (m1 + m2),u2.y
+                
+            );
             
             const vFinal1 = v1.rotate(-angle);
             const vFinal2 = v2.rotate(-angle);
@@ -59,7 +62,7 @@ export class Collision {
             const dist = delta.magnitude();
             const overlap = one.radius + other.radius - dist;
             
-            if (overlap > 0.001 && dist > 0.001) {
+            if (overlap > 0.001 && dist > 0.001 && one !== other) {
                 const correct = delta.unitVector().mult(overlap / 2);
                 // Push them apart
                 one.pos.subMutate(correct);

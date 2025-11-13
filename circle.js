@@ -24,7 +24,7 @@ export class Circle {
     var dy = other.pos.y - this.pos.y;
     return Math.hypot(dx, dy) < this.radius + other.radius; // measure distance 
   }
-  
+   
   draw(c) {
     c.beginPath();
     c.arc(this.pos.x, this.pos.y, this.radius, 0, Math.PI * 2);
@@ -77,6 +77,6 @@ export class Circle {
       this.vel.x *= friction;
     }
     this.pos.addMutate(this.vel);
-    this.acc.mult(0);
+    this.acc.multMutate(0);
   };
 }

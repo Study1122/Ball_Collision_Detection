@@ -29,7 +29,7 @@ export class Vector {
   heading() {
     return Math.atan2(this.y, this.x);
   }
-  
+   
   /** 
    * Rotate this vector by a given angle (radians) — returns new vector. 
    * @param {number} angle 
@@ -241,4 +241,4 @@ export class Vector {
   toObject() {
     return { x: this.x, y: this.y, z: this.z };
   }
-}
+} 

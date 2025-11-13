@@ -51,23 +51,13 @@ document.getElementById("clearBalls").onclick = () => { balls.length = 0; };
 
 
 const balls = [];
-const radius = [];
-const BALL_COUNT = 50;
-let rad = 5;
-let mass = 1;
-const gravityScale = .1;
-const damping = .97;
-const elasticity = .89;
-const friction = .98;
 const gravity = new Vector(0, 0);
 
 function addBall() {
-    
-    const rad = getRandom(5, 30);
+    const rad = getRandom(5, 80);
     const mass = 1 + rad * 0.3;
     let x, y, newBall;
-    let overlapping;
-    
+    let overlapping = false;
     // Try placing without overlap (limit retries)
     let attempts = 0;
     const maxAttempts = 100;
@@ -83,32 +73,6 @@ function addBall() {
     
     if (!overlapping) balls.push(newBall);
     else console.warn("Skipped adding a ball — space too crowded!");
-}
-
-for (let i = 0; i < BALL_COUNT; i++) {
-    rad = getRandom(5, 30);
-    mass = 1 + rad * .3;
-    let x = getRandom(rad, innerWidth - rad);
-    let y = getRandom(rad, innerHeight - rad);
-    
-    let newBall = new Circle(x, y, rad, mass);
-    
-    // Check overlap with existing circles
-    let overlapping = false;
-    do {
-        overlapping = false;
-        for (let j = 0; j < balls.length; j++) {
-            if (newBall.collided(balls[j])) {
-                overlapping = true;
-                x = getRandom(rad, innerWidth - rad);
-                y = getRandom(rad, innerHeight - rad);
-                newBall = new Circle(x, y, rad, mass);
-                break;
-            }
-        }
-    }
-    while (overlapping);
-    balls.push(newBall);
 }
 
 window.addEventListener('deviceorientation', (event) => {
