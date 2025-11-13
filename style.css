@@ -1,10 +1,125 @@
-body{
-  box-sizing: border-box;
+/* === Canvas covers full window === */
+html, body {
   margin: 0;
-  background-color: antiquewhite;
-  border: 1px solid black;
+  padding: 0;
+  overflow: auto;
+  background: radial-gradient(circle at center #fafafa 0%, #000 100%);
+  height: 100%;
+  width: 100%;
 }
 
-canvas{
-  background-color: white;
+/* === Canvas === */
+canvas {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+  background: transparent;
+  cursor: grab;
+}
+
+/* === Control Panel === */
+#gui {
+  position: fixed;
+  top: 5px;
+  left: 5px;
+  background: rgba(25, 25, 25, 0.58);
+  backdrop-filter: blur(10px);
+  color: #f5f5f5;
+  padding: 15px;
+  border-radius: 14px;
+  font-family: "Poppins", "Segoe UI", Roboto, sans-serif;
+  font-size: 14px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, .5);
+  z-index: 9999;
+  width: 300px;
+  cursor: grab;
+  resize: both;          /* enables resize corner */
+  overflow: auto;        /* makes content scrollable if needed */
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 1s ease;
+}
+#gui:active {
+  cursor: grabbing;
+}
+
+/* === Header === */
+#gui h3 {
+  margin: 0 0 14px 0;
+  font-size: 15px;
+  text-align: left;
+  font-weight: 1000;
+  color: #00f2fe;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+  padding-bottom: 1px;
+}
+
+/* === Controls === */
+#gui label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  color: #ddd;
+}
+
+#gui input[type="range"] {
+  width: 100%;
+  margin-top: 4px;
+  accent-color: #00f2fe;
+  cursor: pointer;
+}
+
+#gui span {
+  align-self: flex-end;
+  font-size: 12px;
+  color: #aaa;
+  margin-top: 2px;
+}
+
+/* === Buttons === */
+#gui button {
+  display: inline-block;
+  width: 31%;
+  background: linear-gradient(150deg, #3fb9fe 0%, #00f2fe 50%);
+  color: white;
+  box-shadow: 0px 1px 5px rgba(0, 0, 0, .5);
+  font-weight: 500;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 0;
+  margin: 3px 2px;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+#gui button:hover {
+  transform: translateY(-2px);
+  box-shadow: 5px 5px 15px rgba(255, 250, 224, 0.4);
+}
+
+#gui button:active {
+  transform: scale(0.97);
+}
+
+/* === Scrollbar (if needed) === */
+#gui::-webkit-scrollbar {
+  width: 5px;
+}
+#gui::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+/* === Responsive for Mobile === */
+@media (max-width: 600px) {
+  #gui {
+    top: 10px;
+    left: 10px;
+    width: 200px;
+    font-size: 13px;
+    padding: 12px 14px;
+  }
 }
