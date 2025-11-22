@@ -54,7 +54,7 @@ const balls = [];
 const gravity = new Vector(0, 0);
 
 function addBall() {
-    const rad = getRandom(5, 80);
+    const rad = getRandom(5, 40);
     const mass = 1 + rad * 0.3;
     let x, y, newBall;
     let overlapping = false;
